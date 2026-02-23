@@ -4,7 +4,7 @@
 
 ## 🇬🇧 English Version
 
-**Authors:** Maciej Kasperek (von Krappitz)
+**Authors:** Maciej Kasperek (vonKrappitz)
 
 **Firmware Version:** v1.0.0 Stable
 
@@ -62,7 +62,7 @@ It is free for personal, educational, and hobbyist use. **Commercial use, redist
 
 ## 🇵🇱 Wersja Polska
 
-**Autorzy:** Maciej Kasperek (von Krappitz) **Wersja Firmware:** v1.0.0 Stable
+**Autorzy:** Maciej Kasperek (vonKrappitz) **Wersja Firmware:** v1.0.0 Stable
 
 **Data:** 2026-02-22
 
