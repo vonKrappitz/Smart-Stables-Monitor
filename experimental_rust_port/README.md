@@ -1,33 +1,33 @@
 ![Proof of Concept](https://img.shields.io/badge/Status-Proof_of_Concept-success?style=for-the-badge&logo=rust)
 ![Rust](https://img.shields.io/badge/Rust-Experimental_port-000000?style=for-the-badge&logo=rust)
 
-# Smart Stables Monitor == Experimental Rust Port
+# 🐴 Smart Stables Monitor --> Experimental Rust Port
 
-**Cel:** sprawdzić czy dam radę w Rust na ESP32-IDF przy zachowaniu 100% feature parity z wersją C++.
+**Cel:** sprawdzić czy da się przeportować z C++ na Rust na ESP32 przy zachowaniu 100% funkcji.
 
 **Wynik:** zaliczone (wszystko działa, defensive programming wzmocniony).
 
 ## Opis
 
-Port firmware `stables_1_0_0` z Arduino C++ (.ino) na Rust, używając ekosystemu `esp-idf-hal` / `esp-idf-svc`.
+Port firmware `stables_1.0.0` z Arduino C++ (.ino) na Rust, używając ekosystemu `esp-idf-hal` / `esp-idf-svc`.
 
-**Autor oryginału**: Maciej Kasperek (vonKrappitz)  
-**Wersja**: 1.0.0
+**Autor**: Maciej Kasperek (vonKrappitz)  
+**Wersja orginału**: 1.0.0
 
 ## Architektura
 
 | Moduł C++ (Arduino)         | Odpowiednik Rust                         |
-|------------------------------|------------------------------------------|
-| `Wire.h` / I2C              | `esp-idf-hal::i2c::I2cDriver`           |
+|-----------------------------|------------------------------------------|
+| `Wire.h` / I2C              | `esp-idf-hal::i2c::I2cDriver`            |
 | `Adafruit_SSD1306`          | Własny driver `Oled` + `TextRenderer`    |
 | `Adafruit_AHTX0`            | Własny driver `Aht20`                    |
-| `RTClib` (DS3231)            | Własny driver `Ds3231`                   |
+| `RTClib` (DS3231)           | Własny driver `Ds3231`                   |
 | `Adafruit_ADS1X15`          | Własny driver `Ads1115`                  |
 | `SparkFun_Qwiic_Joystick`   | Własny driver `QwiicJoystick`            |
-| `MHZ19` (CO2, UART)         | Własny driver `Mhz19`                   |
-| `PMS.h` (PM sensor, UART)   | Własny driver `Pms5003`                 |
+| `MHZ19` (CO2, UART)         | Własny driver `Mhz19`                    |
+| `PMS.h` (PM sensor, UART)   | Własny driver `Pms5003`                  |
 | `SD.h` / FAT32              | `esp_vfs_fat_sdspi_mount` (raw FFI)      |
-| `Preferences`               | `esp-idf-svc::nvs::EspNvs`              |
+| `Preferences`               | `esp-idf-svc::nvs::EspNvs`               |
 | `RTC_DATA_ATTR`             | `#[link_section = ".rtc.data"]`          |
 | `esp_task_wdt`              | bezpośrednie FFI do `esp-idf-sys`        |
 | `esp_deep_sleep_start`      | bezpośrednie FFI do `esp-idf-sys`        |
@@ -59,7 +59,7 @@ Port firmware `stables_1_0_0` z Arduino C++ (.ino) na Rust, używając ekosystem
 - ✅ Calibrate CO2 == 400ppm zero-point via MH-Z19 UART command
 - ✅ Set NH3 Factor == keyboard input z walidacją zakresu
 
-## Uwagi implementacyjne
+## Uwagi
 
 - ⚠️ **SD Card SPI config** == `sdcard::mount()` używa surowego FFI. Piny SPI (MOSI/MISO/CLK) muszą być dopasowane do hardware'u. Domyślne ESP32 SPI2 to: MOSI=23, MISO=19, CLK=18.
 - ⚠️ **WiFi** == implementacja używa surowego `esp-idf-sys` FFI zamiast `esp-idf-svc::wifi` (wymagałoby przekazywania `peripherals.modem`). Funkcjonalnie identyczne z oryginałem.
@@ -77,10 +77,9 @@ cargo build --release --target xtensa-esp32-espidf
 ## Struktura plików
 
 ```
-smart_stables/
+experimental_rust_port/
 ├── Cargo.toml          # Zależności i konfiguracja
-├── src/
-│   └── main.rs         # Cały firmware (single-file port)
+├── main.rs             # Cały firmware (single-file port)
 └── README.md           # Ten plik
 ```
 
