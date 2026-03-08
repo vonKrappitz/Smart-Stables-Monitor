@@ -99,3 +99,6 @@ System jest zoptymalizowany pod kątem długotrwałej pracy, wykorzystując prec
 Ten projekt jest udostępniany na **Autorskiej Licencji Niekomercyjnej**.
 
 Korzystanie w celach prywatnych, edukacyjnych i hobbystycznych jest całkowicie darmowe. **Wykorzystanie komercyjne, modyfikacja w celach zarobkowych lub sprzedaż bez pisemnej zgody autora jest surowo zabroniona.** Oprogramowanie dostarczane jest w modelu "AS IS" z pełnym wyłączeniem odpowiedzialności prawnej (m.in. za zdrowie zwierząt czy dokładność sensorów). Szczegóły w pliku LICENSE.
+
+---
+*Created by Maciej Kasperek (vonKrappitz)*
