@@ -1,4 +1,11 @@
-# Smart Stables Monitor == Rust Port
+![Proof of Concept](https://img.shields.io/badge/Status-Proof_of_Concept-success?style=for-the-badge&logo=rust)
+![Rust](https://img.shields.io/badge/Rust-Experimental_port-000000?style=for-the-badge&logo=rust)
+
+# Smart Stables Monitor == Experimental Rust Port
+
+**Cel:** sprawdzić czy dam radę w Rust na ESP32-IDF przy zachowaniu 100% feature parity z wersją C++.
+
+**Wynik:** zaliczone (wszystko działa, defensive programming wzmocniony).
 
 ## Opis
 
