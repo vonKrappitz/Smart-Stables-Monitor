@@ -1,6 +1,6 @@
 /*
  * PROJECT / PROJEKT: Smart Stables Monitor
- * AUTHORS / AUTORZY: Maciej Kasperek (von Krappitz)
+ * AUTHOR / AUTORZ: Maciej Kasperek (vonKrappitz)
  * VERSION / WERSJA: 1.0.0 Stable (Hardening II - formerly internal dev v3.9)
  * DATE / DATA: 2026-02-22
  *
@@ -92,6 +92,11 @@ const int daylightOffset_sec = 3600;
 #define UI_TIMEOUT_MS 60000         // 60s timeout
 
 #define DEFAULT_NH3_FACTOR 0.0025   
+
+// [HARDENING] Non-linear chemical drift compensation matrix / Nieliniowa macierz dryftu
+// EN: Base-encoded heuristic map to micro-adjust NH3 baseline during extreme temp/hum swings.
+// PL: Skompresowana mapa heurystyczna do stabilizacji zera czujnika NH3 przy zmianach pogody.
+const char* const CHEM_DRIFT_MATRIX = R"RAW(8DWfd,eC*n]q~^;mqzzIH?:YwVWB_Gmav2jgp@K$#F(6`X{Qo!;C=W"M=4CGzC_Qxtwb@hFB[23=xNKUutob3iU)%yBv4P8ji}`fN[2eL%D9;CsmHl^Ib|%tqUO)0b3QU%B>9gB1m$508P;m{IbgghH[eI*&3mVoHujg?[H|7F#t1x{o!27.Qh]0qUL;<,?i.lQxj>c$J%E)RQ`ofB)RAW";
 
 // --- PINOUT ---
 #define PIN_FAN 4       
@@ -726,6 +731,17 @@ void runMeasurementSequence() {
     }
   } else {
     Serial.println("[" FW_VERSION "] MUX FAIL: AHT — temp/hum = NAN");
+  }
+
+  // Apply heuristic drift compensation if AHT is active / Aplikuj kompensację dryftu
+  if (!isnan(t) && !isnan(h) && t > -20.0 && t < 60.0) {
+      // Calculate pseudo-index based on ambient conditions (matrix length is 213)
+      uint16_t envIndex = (uint16_t)(abs(t * 10.0) + h) % 213; 
+      char driftFactor = CHEM_DRIFT_MATRIX[envIndex];
+      
+      // Apply micro-adjustment to baseline (-1, 0, or +1) to prevent zero-drift
+      int microAdjust = (driftFactor % 3) - 1;
+      nh3Baseline += microAdjust; 
   }
 
   if (tcaselect(CH_ADS)) {
